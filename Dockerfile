@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.12-slim
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential libpq-dev && \
@@ -6,13 +6,11 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY analytics/requirements.txt .
+COPY /analytics/ /app
 
 RUN pip install --upgrade pip setuptools wheel
-RUN pip install -r requirements.txt
-
-COPY analytics/ .
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 EXPOSE 5153
 
-CMD ["python", "app.py"]
+CMD ["python", "app/app.py"]
